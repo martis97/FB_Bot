@@ -51,7 +51,7 @@ def look_for_page(self):
         search_bar.send_keys("Dank Memes")
 
     except WebDriverException: 
-         look_for_page()
+         look_for_page(browser)
 
     search_btn = WebDriverWait(browser, timeout).until(EC.element_to_be_clickable((By.CLASS_NAME, "_585_")))
     search_btn.click()
