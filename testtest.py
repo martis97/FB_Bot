@@ -26,6 +26,11 @@ browser = webdriver.Chrome(chrome_options=chrome_options)
 
 
 def navigate_to_url(self):
+
+    """ Makes the browser window fullscreen and navigates to the web page
+        TODO: Parameterise the target URL
+    """
+
     browser.fullscreen_window()
     browser.get(url)
 
@@ -43,6 +48,10 @@ def login_process(self, password):
 
 
 def look_for_page(self):
+    
+    """ Looks for a Facebook using a search bar 
+        TODO: Parameterise the search values
+    """
 
     try:
         search_bar_element = '//input[@placeholder = "Search"]'
@@ -62,15 +71,14 @@ def look_for_page(self):
 
 def press_like(self): 
 
-    """ Likes the last 30 posts on the timeline """
+    """ Likes the last 30 posts on the timeline 
+        It will first unlike any posts that have been liked already
+        TODO: Parameterise the amount of posts it will like
+    """
 
     liked_xpath = '//a[@aria-pressed = "true"]'
     not_liked_xpath = '//a[@aria-pressed = "false"]'
 
-
-
-
-    
     random_wait = random.uniform(1, 1.99)
 
     try:
