@@ -46,6 +46,21 @@ def login_process(self, password):
     login_btn = WebDriverWait(browser, timeout).until(EC.element_to_be_clickable((By.ID, "loginbutton")))
     login_btn.click()
 
+    try:
+        WebDriverWait(browser, 4) \
+            .until(EC.visibility_of_element_located \
+            ((By.CLASS_NAME, "_4rbf")))
+
+        incorrectCredsElement = browser.find_element_by_class_name("_4rbf")
+
+        if incorrectCredsElement.is_displayed():
+            print("Incorrect credentials have been entered!")
+            browser.quit()
+
+    except TimeoutException:
+        pass
+    
+    
 
 def look_for_page(self):
     
@@ -84,11 +99,9 @@ def press_like(self):
     try:
         WebDriverWait(browser, 3).until(EC.element_to_be_clickable((By.XPATH, liked_xpath)))
         liked_btns = browser.find_elements_by_xpath(liked_xpath)
-        not_liked_btns = browser.find_elements_by_xpath(not_liked_xpath)
         
-        print("Starting unliking loop")
+        print("Unliking pages that have been already liked...")
         for like_button in liked_btns:
-            print("Checking if like button is not a comment like")
             if not like_button.get_attribute("data-testid") == 'fb_ufi_comment_like_link':
                 like_button.click()
                 time.sleep(random_wait)
@@ -100,6 +113,7 @@ def press_like(self):
     WebDriverWait(browser, timeout).until(EC.element_to_be_clickable((By.XPATH, not_liked_xpath)))
 
     liked_posts = 0
+    not_liked_btns = browser.find_elements_by_xpath(not_liked_xpath)
 
     for like_button in not_liked_btns:
         like_button.click()
