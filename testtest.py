@@ -15,7 +15,8 @@ timeout = 60
 url = "https://www.facebook.com/"
 
 
-password = getpass.getpass("Enter password for martynas.markevicius97@gmail.com : ")
+password = getpass.getpass \
+    ("Enter password for martynas.markevicius97@gmail.com : ")
 
 
 
@@ -37,13 +38,19 @@ def navigate_to_url(self):
 
 def login_process(self, password):
 
-    email_entry = WebDriverWait(self, timeout).until(EC.presence_of_element_located((By.ID, "email")))
+    email_entry = WebDriverWait(self, timeout) \
+        .until(EC.presence_of_element_located((By.ID, "email")))
+
     email_entry.send_keys("martynas.markevicius97@gmail.com")
 
-    password_entry = WebDriverWait(self, timeout).until(EC.presence_of_element_located((By.ID, "pass")))
+    password_entry = WebDriverWait(self, timeout) \
+        .until(EC.presence_of_element_located((By.ID, "pass")))
+
     password_entry.send_keys(password)
 
-    login_btn = WebDriverWait(self, timeout).until(EC.element_to_be_clickable((By.ID, "loginbutton")))
+    login_btn = WebDriverWait(self, timeout) \
+        .until(EC.element_to_be_clickable((By.ID, "loginbutton")))
+
     login_btn.click()
 
     try:
@@ -70,16 +77,23 @@ def enter_to_search(self):
 
     try:
         search_bar_element = '//input[@placeholder = "Search"]'
-        WebDriverWait(self, timeout).until(EC.visibility_of_element_located((By.XPATH, search_bar_element)))
+
+        WebDriverWait(self, timeout)\ 
+            .until(EC.visibility_of_element_located \ 
+            ((By.XPATH, search_bar_element)))
+
         search_bar = self.find_element_by_xpath(search_bar_element)
         search_bar.send_keys("Dank Memes")
 
     except WebDriverException: 
          enter_to_search(self)
 
+
 def press_search(self):
 
-    search_btn = WebDriverWait(self, timeout).until(EC.element_to_be_clickable((By.CLASS_NAME, "_585_")))
+    search_btn = WebDriverWait(self, timeout) \
+        .until(EC.element_to_be_clickable((By.CLASS_NAME, "_585_")))
+
     search_btn.click()
 
 
@@ -114,7 +128,6 @@ def select_third_page(self):
     available_pages[2].click()
 
 
-
 def press_like(self): 
 
     """ Likes the last 30 posts on the timeline 
@@ -128,7 +141,9 @@ def press_like(self):
     random_wait = random.uniform(1, 1.99)
 
     try:
-        WebDriverWait(self, 3).until(EC.element_to_be_clickable((By.XPATH, liked_xpath)))
+        WebDriverWait(self, 3) \
+            .until(EC.element_to_be_clickable((By.XPATH, liked_xpath)))
+
         liked_btns = self.find_elements_by_xpath(liked_xpath)
         
         print("Unliking pages that have been already liked...")
@@ -141,7 +156,8 @@ def press_like(self):
         print("No liked posts found")
 
     
-    WebDriverWait(self, timeout).until(EC.element_to_be_clickable((By.XPATH, not_liked_xpath)))
+    WebDriverWait(self, timeout) \
+        .until(EC.element_to_be_clickable((By.XPATH, not_liked_xpath)))
 
     liked_posts = 0
     not_liked_btns = self.find_elements_by_xpath(not_liked_xpath)
