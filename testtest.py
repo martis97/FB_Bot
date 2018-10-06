@@ -91,6 +91,8 @@ def enter_to_search(self):
 
 def press_search(self):
 
+    """ Initiating the search by pressing the 'Search' button """
+
     search_btn = WebDriverWait(self, timeout) \
         .until(EC.element_to_be_clickable((By.CLASS_NAME, "_585_")))
 
@@ -98,6 +100,7 @@ def press_search(self):
 
 
 def select_first_page(self):
+
     """ Selects the first search result """
 
     WebDriverWait(self, timeout) \
@@ -109,7 +112,9 @@ def select_first_page(self):
 
 
 def select_second_page(self):
+
     """ Selects the second search result """
+
     WebDriverWait(self, timeout) \
         .until(EC.element_to_be_clickable \
         ((By.CLASS_NAME, "_52eh")))
@@ -119,7 +124,9 @@ def select_second_page(self):
 
 
 def select_third_page(self):
+
     """ Selects the third search result """
+    
     WebDriverWait(self, timeout) \
         .until(EC.element_to_be_clickable \
         ((By.CLASS_NAME, "_52eh")))
