@@ -78,8 +78,8 @@ def enter_to_search(self):
     try:
         search_bar_element = '//input[@placeholder = "Search"]'
 
-        WebDriverWait(self, timeout)\ 
-            .until(EC.visibility_of_element_located \ 
+        WebDriverWait(self, timeout) \
+            .until(EC.visibility_of_element_located \
             ((By.XPATH, search_bar_element)))
 
         search_bar = self.find_element_by_xpath(search_bar_element)
@@ -137,6 +137,7 @@ def press_like(self):
 
     liked_xpath = '//a[@aria-pressed = "true"]'
     not_liked_xpath = '//a[@aria-pressed = "false"]'
+    comment_like = 'fb_ufi_comment_like_link'
 
     random_wait = random.uniform(1, 1.99)
 
@@ -148,7 +149,7 @@ def press_like(self):
         
         print("Unliking pages that have been already liked...")
         for like_button in liked_btns:
-            if not like_button.get_attribute("data-testid") == 'fb_ufi_comment_like_link':
+            if not like_button.get_attribute("data-testid") == comment_like:
                 like_button.click()
                 time.sleep(random_wait)
 
@@ -163,7 +164,7 @@ def press_like(self):
     not_liked_btns = self.find_elements_by_xpath(not_liked_xpath)
 
     for like_button in not_liked_btns:
-        if not like_button.get_attribute("data-testid") == 'fb_ufi_comment_like_link':
+        if not like_button.get_attribute("data-testid") == comment_like:
             like_button.click()
             time.sleep(random_wait)
             liked_posts += 1
