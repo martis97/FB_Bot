@@ -37,17 +37,17 @@ def navigate_to_url(self):
 
 def login_process(self, password):
 
-    email_entry = WebDriverWait(browser, timeout).until(EC.presence_of_element_located((By.ID, "email")))
+    email_entry = WebDriverWait(self, timeout).until(EC.presence_of_element_located((By.ID, "email")))
     email_entry.send_keys("martynas.markevicius97@gmail.com")
 
-    password_entry = WebDriverWait(browser, timeout).until(EC.presence_of_element_located((By.ID, "pass")))
+    password_entry = WebDriverWait(self, timeout).until(EC.presence_of_element_located((By.ID, "pass")))
     password_entry.send_keys(password)
 
-    login_btn = WebDriverWait(browser, timeout).until(EC.element_to_be_clickable((By.ID, "loginbutton")))
+    login_btn = WebDriverWait(self, timeout).until(EC.element_to_be_clickable((By.ID, "loginbutton")))
     login_btn.click()
 
     try:
-        WebDriverWait(browser, 4) \
+        WebDriverWait(self, 4) \
             .until(EC.visibility_of_element_located \
             ((By.CLASS_NAME, "_4rbf")))
 
@@ -70,47 +70,47 @@ def enter_to_search(self):
 
     try:
         search_bar_element = '//input[@placeholder = "Search"]'
-        WebDriverWait(browser, timeout).until(EC.visibility_of_element_located((By.XPATH, search_bar_element)))
-        search_bar = browser.find_element_by_xpath(search_bar_element)
+        WebDriverWait(self, timeout).until(EC.visibility_of_element_located((By.XPATH, search_bar_element)))
+        search_bar = self.find_element_by_xpath(search_bar_element)
         search_bar.send_keys("Dank Memes")
 
     except WebDriverException: 
-         look_for_page(browser)
+         enter_to_search(self)
 
 def press_search(self):
 
-    search_btn = WebDriverWait(browser, timeout).until(EC.element_to_be_clickable((By.CLASS_NAME, "_585_")))
+    search_btn = WebDriverWait(self, timeout).until(EC.element_to_be_clickable((By.CLASS_NAME, "_585_")))
     search_btn.click()
 
 
 def select_first_page(self):
     """ Selects the first search result """
 
-    WebDriverWait(browser, timeout) \
+    WebDriverWait(self, timeout) \
         .until(EC.element_to_be_clickable \
         ((By.CLASS_NAME, "_52eh")))
 
-    available_pages = browser.find_elements_by_class_name("_52eh")
+    available_pages = self.find_elements_by_class_name("_52eh")
     available_pages[0].click()
 
 
 def select_second_page(self):
     """ Selects the second search result """
-    WebDriverWait(browser, timeout) \
+    WebDriverWait(self, timeout) \
         .until(EC.element_to_be_clickable \
         ((By.CLASS_NAME, "_52eh")))
 
-    available_pages = browser.find_elements_by_class_name("_52eh")
+    available_pages = self.find_elements_by_class_name("_52eh")
     available_pages[1].click()
 
 
 def select_third_page(self):
     """ Selects the third search result """
-    WebDriverWait(browser, timeout) \
+    WebDriverWait(self, timeout) \
         .until(EC.element_to_be_clickable \
         ((By.CLASS_NAME, "_52eh")))
 
-    available_pages = browser.find_elements_by_class_name("_52eh")
+    available_pages = self.find_elements_by_class_name("_52eh")
     available_pages[2].click()
 
 
@@ -128,8 +128,8 @@ def press_like(self):
     random_wait = random.uniform(1, 1.99)
 
     try:
-        WebDriverWait(browser, 3).until(EC.element_to_be_clickable((By.XPATH, liked_xpath)))
-        liked_btns = browser.find_elements_by_xpath(liked_xpath)
+        WebDriverWait(self, 3).until(EC.element_to_be_clickable((By.XPATH, liked_xpath)))
+        liked_btns = self.find_elements_by_xpath(liked_xpath)
         
         print("Unliking pages that have been already liked...")
         for like_button in liked_btns:
@@ -141,10 +141,10 @@ def press_like(self):
         print("No liked posts found")
 
     
-    WebDriverWait(browser, timeout).until(EC.element_to_be_clickable((By.XPATH, not_liked_xpath)))
+    WebDriverWait(self, timeout).until(EC.element_to_be_clickable((By.XPATH, not_liked_xpath)))
 
     liked_posts = 0
-    not_liked_btns = browser.find_elements_by_xpath(not_liked_xpath)
+    not_liked_btns = self.find_elements_by_xpath(not_liked_xpath)
 
     for like_button in not_liked_btns:
         if not like_button.get_attribute("data-testid") == 'fb_ufi_comment_like_link':
