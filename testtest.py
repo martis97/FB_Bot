@@ -62,7 +62,7 @@ def login_process(self, password):
     
     
 
-def look_for_page(self):
+def enter_to_search(self):
     
     """ Looks for a Facebook using a search bar 
         TODO: Parameterise the search values
@@ -77,11 +77,42 @@ def look_for_page(self):
     except WebDriverException: 
          look_for_page(browser)
 
+def press_search(self):
+
     search_btn = WebDriverWait(browser, timeout).until(EC.element_to_be_clickable((By.CLASS_NAME, "_585_")))
     search_btn.click()
 
-    dank_memes_page = WebDriverWait(browser, timeout).until(EC.element_to_be_clickable((By.LINK_TEXT, "Dank Memes")))
-    dank_memes_page.click()
+
+def select_first_page(self):
+    """ Selects the first search result """
+
+    WebDriverWait(browser, timeout) \
+        .until(EC.element_to_be_clickable \
+        ((By.CLASS_NAME, "_52eh")))
+
+    available_pages = browser.find_elements_by_class_name("_52eh")
+    available_pages[0].click()
+
+
+def select_second_page(self):
+    """ Selects the second search result """
+    WebDriverWait(browser, timeout) \
+        .until(EC.element_to_be_clickable \
+        ((By.CLASS_NAME, "_52eh")))
+
+    available_pages = browser.find_elements_by_class_name("_52eh")
+    available_pages[1].click()
+
+
+def select_third_page(self):
+    """ Selects the third search result """
+    WebDriverWait(browser, timeout) \
+        .until(EC.element_to_be_clickable \
+        ((By.CLASS_NAME, "_52eh")))
+
+    available_pages = browser.find_elements_by_class_name("_52eh")
+    available_pages[2].click()
+
 
 
 def press_like(self): 
@@ -116,9 +147,10 @@ def press_like(self):
     not_liked_btns = browser.find_elements_by_xpath(not_liked_xpath)
 
     for like_button in not_liked_btns:
-        like_button.click()
-        time.sleep(random_wait)
-        liked_posts += 1
+        if not like_button.get_attribute("data-testid") == 'fb_ufi_comment_like_link':
+            like_button.click()
+            time.sleep(random_wait)
+            liked_posts += 1
 
         if liked_posts == 30:
             print("30 most recent posts have been liked")
@@ -127,5 +159,7 @@ def press_like(self):
 
 navigate_to_url(browser)
 login_process(browser, password)
-look_for_page(browser)
+enter_to_search(browser)
+press_search(browser)
+select_first_page(browser)
 press_like(browser)
