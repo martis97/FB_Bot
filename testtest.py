@@ -154,12 +154,15 @@ def press_like(self):
     """ Likes the last 30 posts on the timeline 
         It will first unlike any posts that have been liked already
         TODO: Parameterise the amount of posts it will like
+
+        Exceptions:
+            TimeoutException - Will look for liked posts for 3 seconds 
+            upon timeout, it will continue running the script
     """
 
     liked_xpath = '//a[@aria-pressed = "true"]'
     not_liked_xpath = '//a[@aria-pressed = "false"]'
     comment_like = 'fb_ufi_comment_like_link'
-
     random_wait = random.uniform(1, 1.99)
 
     try:
