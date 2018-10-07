@@ -38,6 +38,16 @@ def navigate_to_url(self):
 
 def login_process(self, password):
 
+    """ Enters username and password to the respective fields and
+        presses 'Log in'
+
+        Exceptions:
+            TimeoutException: Will look for the 'Incorrect Credentials'
+            error message - if this message is not displayed within 4 seconds,
+            it will carry on executing the rest of the script
+
+    """
+
     email_entry = WebDriverWait(self, timeout) \
         .until(EC.presence_of_element_located((By.ID, "email")))
 
@@ -73,6 +83,10 @@ def enter_to_search(self):
     
     """ Looks for a Facebook using a search bar 
         TODO: Parameterise the search values
+
+        Exceptions:
+            WebDriverException - will re-enter the search value if the 
+            exception is raised  
     """
 
     try:
