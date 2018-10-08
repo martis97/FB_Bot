@@ -14,9 +14,9 @@ from selenium.common.exceptions import WebDriverException
 timeout = 60
 url = "https://www.facebook.com/"
 
-
+username = "martynas.markevicius97@gmail.com"
 password = getpass.getpass \
-    ("Enter password for martynas.markevicius97@gmail.com : ")
+    ("Enter password for %s : " % username)
 
 
 
@@ -73,6 +73,7 @@ def login_process(self, password):
         if incorrectCredsElement.is_displayed():
             print("Incorrect credentials have been entered!")
             browser.quit()
+            exit()
 
     except TimeoutException:
         pass
