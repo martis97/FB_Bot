@@ -1,20 +1,25 @@
+# Selenium Webdriver
+from selenium import webdriver
+
+# Selenium Exceptions
+from selenium.common.exceptions import NoSuchElementException,\
+    TimeoutException, WebDriverException
+
+# Explicit Wait (To be replaced with WaitFor module)
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
 # Misc.
 import getpass
 import time
 import random
 
-# Selenium
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import NoSuchElementException,\
-    TimeoutException, WebDriverException
 
 class FBBot(object):
     """Facebook bot class defining actions required to log in to Facebook,
     find a page ("Crazy Programmer" by default), and like the first 30 
-    (default) posts on the timeline.
+    (default amount) posts on the timeline.
     """
 
     def __init__(self):
@@ -97,7 +102,6 @@ class FBBot(object):
             pass
 
     def enter_to_search(self,search_value):
-        
         """Looks for a Facebook using a search bar.
 
             Exceptions:
@@ -152,11 +156,10 @@ class FBBot(object):
         random_wait = random.uniform(1, 1.99)
 
         try:
-            WebDriverWait(self.browser, 3) \
+            WebDriverWait(self.browser, 5) \
                 .until(EC.element_to_be_clickable((By.XPATH, liked_xpath)))
-
             liked_btns = self.browser.find_elements_by_xpath(liked_xpath)
-            
+
             print("Unliking pages that have been already liked...")
             for like_button in liked_btns:
                 if like_button.get_attribute("data-testid") == post_like:
@@ -164,7 +167,6 @@ class FBBot(object):
                     time.sleep(random_wait)
                 else:
                     continue
-
         except TimeoutException: 
             print("No liked posts found")
 
@@ -193,6 +195,7 @@ def mr_robot():
     # Param definitions
     search_value = "Crazy Programmer"
     page_number = 1
+    number_likes = 25
 
     # Class instance
     fb = FBBot()
@@ -204,6 +207,6 @@ def mr_robot():
     fb.enter_to_search(search_value)
     fb.press_search()
     fb.select_page(page_number)
-    fb.press_like(25)
+    fb.press_like(number_likes)
 
 mr_robot()
