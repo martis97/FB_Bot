@@ -141,7 +141,7 @@ class FBBot(object):
         available_pages = self.browser.find_elements_by_class_name("_52eh")
         available_pages[number].click()
 
-    def press_like(self, posts_to_like): 
+    def press_like(self, num_posts): 
         """ Likes the last 30 posts on the timeline 
             It will first unlike any posts that have been liked already
 
@@ -170,13 +170,12 @@ class FBBot(object):
         except TimeoutException: 
             print("No liked posts found")
 
-        
         WebDriverWait(self.browser, self.timeout) \
             .until(EC.element_to_be_clickable((By.XPATH, not_liked_xpath)))
 
         liked_posts = 0
         not_liked_btns = self.browser.find_elements_by_xpath(not_liked_xpath)
-
+        print("Liking the latest %d posts on the timeline.." % num_posts)
         for like_button in not_liked_btns:
             if like_button.get_attribute("data-testid") == post_like:
                 like_button.click()
@@ -185,8 +184,8 @@ class FBBot(object):
             else:
                 continue
 
-            if liked_posts == posts_to_like:
-                print("%d most recent posts have been liked" % posts_to_like)
+            if liked_posts == num_posts:
+                print("%d most recent posts have been liked" % num_posts)
                 break
 
 def mr_robot():
