@@ -131,15 +131,30 @@ class FBBot(object):
         search_btn.click()
 
 
-    def select_page(self,number):
-        """Selects the search result"""
+    def select_page_index(self,number):
+        """Selects the search result by its position, starting from 1."""
 
         WebDriverWait(self.browser, self.timeout) \
             .until(EC.element_to_be_clickable \
-            ((By.LINK_TEXT, "Dank Memes"))) # And again lol
+            ((By.CLASS_NAME, "_52eh"))) # And again lol
 
-        available_pages = self.browser.find_elements_by_class_name("_52eh")
-        available_pages[number].click()
+        all_pages = self.browser.find_elements_by_class_name("_52eh")
+        all_pages[number + 1].click()
+
+    def select_page_name(self,name):
+        """Selects the search result, given expected page name."""
+
+        WebDriverWait(self.browser, self.timeout) \
+            .until(EC.element_to_be_clickable \
+            ((By.CLASS_NAME, "_52eh"))) # And again 
+
+        all_pages = self.browser.find_elements_by_class_name("_52eh")
+
+        for page in all_pages: 
+            if page.text == name:
+                page.click()
+            else:
+                continue
 
     def press_like(self, num_posts): 
         """ Likes the last 30 posts on the timeline 
@@ -205,7 +220,7 @@ def mr_robot():
     fb.login_process()
     fb.enter_to_search(search_value)
     fb.press_search()
-    fb.select_page(page_number)
+    fb.select_page_index(page_number)
     fb.press_like(number_likes)
 
 mr_robot()
