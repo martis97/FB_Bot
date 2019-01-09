@@ -35,7 +35,7 @@ class FBBot(object):
         """Creates a Webdriver instance of Chrome to drive the automation.
         
         Args:
-            Notification_actions: (Default: True) Boolean value if browser 
+            notifications_off: (Default: True) Boolean value if browser 
                 required with notifications off. FB requires access to 
                 notifications when first time accessed.
         Returns:
