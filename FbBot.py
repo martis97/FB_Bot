@@ -1,24 +1,30 @@
+# Misc.
 import getpass
 import time
 import random
+
+# Selenium
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import NoSuchElementException
-from selenium.common.exceptions import TimeoutException
-from selenium.common.exceptions import WebDriverException
+from selenium.common.exceptions import NoSuchElementException,\
+    TimeoutException, WebDriverException
 
 class FBBot(object):
+    """Facebook bot class defining actions required to log in to Facebook,
+    find a page ("Crazy Programmer" by default), and like the first 30 
+    (default) posts on the timeline.
+    """
 
-    def __init__(self):  
+    def __init__(self):
+        """Class initialisation."""
         self.browser = None  
         self.timeout = 60
         self.url = "https://www.facebook.com/"
         self.username = input("Enter username: ")
-        self.password = input(getpass.getpass \
-                ("Enter password for %s : " % self.username))
+        self.password = getpass.getpass \
+                ("Enter password for %s : " % self.username)
 
     def create_browser(self, notifications_off=True):  
         """Creates a Webdriver instance of Chrome to drive the automation.
@@ -29,35 +35,37 @@ class FBBot(object):
                 notifications when first time accessed.
         Returns:
             browser: Webdriver element used to drive automation.
+        TODO: Add more Chrome settings 
         """
+
         if notifications_off: 
+            # Changing settings to disable notifications
             chrome_options = webdriver.ChromeOptions()
-            prefs = {"profile.default_content_setting_values.notifications" : 2}
+            prefs =  \
+                {"profile.default_content_setting_values.notifications" : 2}
             chrome_options.add_experimental_option("prefs",prefs)
             self.browser = webdriver.Chrome(chrome_options=chrome_options)
-            return self.browser
+
+            return self.browser.fullscreen_window()
+            
         else:
             self.browser = webdriver.Chrome()
-            return self.browser
+            return self.browser.fullscreen_window()
 
     def navigate_to_url(self):
         """ Makes the browser window fullscreen and navigates to the web page
-            TODO: Parameterise the target URL
         """
 
-        self.browser.fullscreen_window()
         self.browser.get(self.url)
 
-    def login_process(self, password):
+    def login_process(self):
         """Enters username and password to the respective fields and
         presses 'Log in'
 
         Exceptions:
             TimeoutException: Will look for the 'Incorrect Credentials'
             error message - if this message is not displayed within 4 seconds,
-            it will carry on executing the rest of the script
-            
-        TODO: Import WaitFor module from WSAuthTest
+            it will carry on executing the rest of the script 
         """
 
         email_entry = WebDriverWait(self.browser, self.timeout) \
@@ -68,17 +76,16 @@ class FBBot(object):
         password_entry = WebDriverWait(self.browser, self.timeout) \
             .until(EC.presence_of_element_located((By.ID, "pass")))    # be replaced with
 
-        password_entry.send_keys(password)
+        password_entry.send_keys(self.password)
 
         login_btn = WebDriverWait(self.browser, self.timeout) \
             .until(EC.element_to_be_clickable((By.ID, "loginbutton"))) # WaitFor module
 
-        login_btn.click()                                              # for cleaner code
-
+        login_btn.click()                                              
         try:
             WebDriverWait(self.browser, 4) \
                 .until(EC.visibility_of_element_located \
-                ((By.CLASS_NAME, "_4rbf")))
+                ((By.CLASS_NAME, "_4rbf")))                            # for cleaner code
 
             incorrectCredsElement = self.browser.find_element_by_class_name("_4rbf")
 
@@ -91,23 +98,25 @@ class FBBot(object):
 
     def enter_to_search(self,search_value):
         
-        """ Looks for a Facebook using a search bar.
+        """Looks for a Facebook using a search bar.
 
             Exceptions:
                 WebDriverException - will re-enter the search value if the 
                     exception is raised.  
         """
 
-        while not WebDriverException:
+        try:
             search_bar_element = '//input[@placeholder = "Search"]'
+
             WebDriverWait(self.browser, 4) \
                 .until(EC.visibility_of_element_located \
                 ((By.XPATH, search_bar_element))) # Again needs WaitFor
 
             search_bar = self.browser.find_element_by_xpath(search_bar_element)
             return search_bar.send_keys(search_value)
-        
-        self.enter_to_search(search_value)
+
+        except TimeoutException:
+            self.enter_to_search(search_value)
 
     def press_search(self):
         """ Initiating the search by pressing the 'Search' button """
@@ -183,7 +192,7 @@ def mr_robot():
 
     # Param definitions
     search_value = "Crazy Programmer"
-
+    page_number = 1
 
     # Class instance
     fb = FBBot()
@@ -192,7 +201,9 @@ def mr_robot():
     fb.create_browser()
     fb.navigate_to_url()
     fb.login_process()
-    fb.enter_to_search()
+    fb.enter_to_search(search_value)
     fb.press_search()
     fb.select_page(page_number)
     fb.press_like(25)
+
+mr_robot()
