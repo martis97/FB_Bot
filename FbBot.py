@@ -115,12 +115,11 @@ class FBBot(object):
             WebDriverWait(self.browser, 4) \
                 .until(EC.visibility_of_element_located \
                 ((By.XPATH, search_bar_element))) # Again needs WaitFor
-
-            search_bar = self.browser.find_element_by_xpath(search_bar_element)
-            return search_bar.send_keys(search_value)
-
         except TimeoutException:
             self.enter_to_search(search_value)
+        
+        search_bar = self.browser.find_element_by_xpath(search_bar_element)
+        search_bar.send_keys(search_value)
 
     def press_search(self):
         """ Initiating the search by pressing the 'Search' button """
@@ -129,7 +128,6 @@ class FBBot(object):
             .until(EC.element_to_be_clickable((By.CLASS_NAME, "_585_"))) # And again
 
         search_btn.click()
-
 
     def select_page_index(self,number):
         """Selects the search result by its position, starting from 1."""
