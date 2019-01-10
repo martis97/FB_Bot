@@ -25,6 +25,9 @@ class ExplicitWait(object):
 
         Args:
             element: The element's class name.
+
+        Returns:
+            element = WebDriver page element
         """
 
         element = WebDriverWait(self.browser, self.timeout).until \
@@ -39,6 +42,9 @@ class ExplicitWait(object):
 
         Args:
             element: The element's class name.
+
+        Returns:
+            element = WebDriver page element
         """
 
         element = WebDriverWait(self.browser, self.timeout).until \
@@ -53,6 +59,9 @@ class ExplicitWait(object):
 
         Args:
             element: The element's class name.
+
+        Returns:
+            element = WebDriver page element
         """
 
         element = WebDriverWait(self.browser, self.timeout).until \
@@ -67,6 +76,9 @@ class ExplicitWait(object):
 
         Args:
             element: The element's class name.
+
+        Returns:
+            element = WebDriver page element
         """
 
         element = WebDriverWait(self.browser, self.timeout).until \
@@ -81,6 +93,9 @@ class ExplicitWait(object):
 
         Args:
             element: The element's class name.
+
+        Returns:
+            element = WebDriver page element
         """
 
         element = WebDriverWait(self.browser, self.timeout).until \
@@ -95,6 +110,9 @@ class ExplicitWait(object):
 
         Args:
             element: The element's CSS selector.
+
+        Returns:
+            element = WebDriver page element
         """
 
         element = WebDriverWait(self.browser, self.timeout).until \
@@ -109,6 +127,9 @@ class ExplicitWait(object):
 
         Args:
             element: The element's CSS selector.
+
+        Returns:
+            element = WebDriver page element
         """
 
         element = WebDriverWait(self.browser, self.timeout).until \
@@ -123,6 +144,9 @@ class ExplicitWait(object):
 
         Args:
             element: The element's CSS selector.
+
+        Returns:
+            element = WebDriver page element
         """
 
         element = WebDriverWait(self.browser, self.timeout).until \
@@ -137,6 +161,9 @@ class ExplicitWait(object):
 
         Args:
             element: The element's CSS selector.
+
+        Returns:
+            element = WebDriver page element
         """
 
         element = WebDriverWait(self.browser, self.timeout).until \
@@ -150,6 +177,9 @@ class ExplicitWait(object):
 
         Args:
             element: The element's XPath.
+
+        Returns:
+            element = WebDriver page element
         """
 
         element = WebDriverWait(self.browser, self.timeout).until \
@@ -164,6 +194,9 @@ class ExplicitWait(object):
 
         Args:
             element: The element's XPath.
+
+        Returns:
+            element = WebDriver page element
         """
 
         element = WebDriverWait(self.browser, self.timeout).until \
@@ -178,6 +211,9 @@ class ExplicitWait(object):
 
         Args:
             element: The element's XPath.
+
+        Returns:
+            element = WebDriver page element
         """
 
         element = WebDriverWait(self.browser, self.timeout).until \
@@ -192,6 +228,9 @@ class ExplicitWait(object):
 
         Args:
             element: The element's Link Text.
+
+        Returns:
+            element = WebDriver page element
         """
 
         element = WebDriverWait(self.browser, self.timeout).until \
@@ -206,6 +245,9 @@ class ExplicitWait(object):
 
         Args:
             element: The element's Link Text.
+
+        Returns:
+            element = WebDriver page element
         """
 
         element = WebDriverWait(self.browser, self.timeout).until \
@@ -220,6 +262,9 @@ class ExplicitWait(object):
 
         Args:
             element: The element's Tag Name.
+
+        Returns:
+            element = WebDriver page element
         """
 
         element = WebDriverWait(self.browser, self.timeout).until \
@@ -233,6 +278,9 @@ class ExplicitWait(object):
 
         Args:
             element: The element's ID.
+
+        Returns:
+            element = WebDriver page element
         """
 
         element = WebDriverWait(self.browser, self.timeout).until \
@@ -246,6 +294,9 @@ class ExplicitWait(object):
 
         Args:
             element: The element's ID.
+
+        Returns:
+            element = WebDriver page element
         """
 
         element = WebDriverWait(self.browser, self.timeout).until \
@@ -259,6 +310,9 @@ class ExplicitWait(object):
 
         Args:
             element: The element's ID.
+
+        Returns:
+            element = WebDriver page element
         """
 
         element = WebDriverWait(self.browser, self.timeout).until \
@@ -273,6 +327,9 @@ class ExplicitWait(object):
         Args:
             num_tabs: The number of tabs the WebDriver should wait to
                 be available.
+
+        Returns:
+            element = WebDriver page element
         """
 
         WebDriverWait(self.browser, self.timeout).until \

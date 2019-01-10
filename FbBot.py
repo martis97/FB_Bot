@@ -21,8 +21,7 @@ import random
 
 class FBBot(object):
     """Facebook bot class defining actions required to log in to Facebook,
-    find a page ("Crazy Programmer" by default), and like the first 30 
-    (default amount) posts on the timeline.
+    find a page and like the first 30 (default amount) posts on the timeline.
     """
 
     def __init__(self, username, password):
@@ -123,13 +122,13 @@ class FBBot(object):
     def select_page_index(self,number):
         """Selects the search result by its position, starting from 1.
         Args:
-            number: (int) Positional index available pages. 
+            number: (int) Order number of available pages. 
                 1 for the fist page, 2 for second etc.
         """
 
         self.Wait.class_name_clickable("_52eh")
         all_pages = self.browser.find_elements_by_class_name("_52eh")
-        all_pages[number + 1].click()
+        all_pages[number-1].click()
 
     def select_page_name(self,name):
         """Selects the search result, given expected page name."""
@@ -158,7 +157,7 @@ class FBBot(object):
                 .until(EC.element_to_be_clickable((By.XPATH, liked_xpath)))
             liked_btns = self.browser.find_elements_by_xpath(liked_xpath)
 
-            print("Unliking pages that have been already liked...")
+            print("Unliking pages that have been already liked..")
             for like_button in liked_btns:
                 if like_button.get_attribute("data-testid") == post_like:
                     like_button.click()
