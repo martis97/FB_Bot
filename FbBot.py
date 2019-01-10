@@ -22,14 +22,13 @@ class FBBot(object):
     (default amount) posts on the timeline.
     """
 
-    def __init__(self):
+    def __init__(self, username, password):
         """Class initialisation."""
         self.browser = None  
         self.timeout = 60
         self.url = "https://www.facebook.com/"
-        self.username = input("Enter username: ")
-        self.password = getpass.getpass \
-                ("Enter password for %s : " % self.username)
+        self.username = username
+        self.password = password
 
     def create_browser(self, notifications_off=True):  
         """Creates a Webdriver instance of Chrome to drive the automation.
@@ -200,12 +199,14 @@ def mr_robot():
     """Function call and parameter definition"""
 
     # Param definitions
+    username = input("Enter username: ")
+    password = getpass.getpass("Enter password for %s : " % username)
     search_value = "Crazy Programmer"
     page_number = 1
     number_likes = 25
 
     # Class instance
-    fb = FBBot()
+    fb = FBBot(username, password)
 
     # Orchestra
     fb.create_browser()
