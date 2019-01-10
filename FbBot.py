@@ -39,7 +39,8 @@ class FBBot(object):
                 required with notifications off. FB requires access to 
                 notifications when first time accessed.
         Returns:
-            browser: Webdriver element used to drive automation.
+            browser: Webdriver instance of Chrome used to drive automation.
+                Set to be fullscreen.
         TODO: Add more Chrome settings 
         """
 
@@ -65,12 +66,7 @@ class FBBot(object):
 
     def login_process(self):
         """Enters username and password to the respective fields and
-        presses 'Log in'
-
-        Exceptions:
-            TimeoutException: Will look for the 'Incorrect Credentials'
-            error message - if this message is not displayed within 4 seconds,
-            it will carry on executing the rest of the script 
+        presses 'Log in'.
         """
 
         email_entry = WebDriverWait(self.browser, self.timeout) \
@@ -103,10 +99,9 @@ class FBBot(object):
 
     def enter_to_search(self,search_value):
         """Looks for a Facebook using a search bar.
-
-            Exceptions:
-                WebDriverException - will re-enter the search value if the 
-                    exception is raised.  
+        
+        Args:
+            search_value = (str) Text to send to the search box.
         """
 
         try:
@@ -122,7 +117,7 @@ class FBBot(object):
         search_bar.send_keys(search_value)
 
     def press_search(self):
-        """ Initiating the search by pressing the 'Search' button """
+        """Initiating the search by pressing the 'Search' button."""
 
         search_btn = WebDriverWait(self.browser, self.timeout) \
             .until(EC.element_to_be_clickable((By.CLASS_NAME, "_585_"))) # And again
@@ -130,7 +125,11 @@ class FBBot(object):
         search_btn.click()
 
     def select_page_index(self,number):
-        """Selects the search result by its position, starting from 1."""
+        """Selects the search result by its position, starting from 1.
+        Args:
+            number: (int) Positional index available pages. 
+                1 for the fist page, 2 for second etc.
+        """
 
         WebDriverWait(self.browser, self.timeout) \
             .until(EC.element_to_be_clickable \
@@ -155,12 +154,8 @@ class FBBot(object):
                 continue
 
     def press_like(self, num_posts): 
-        """ Likes the last 30 posts on the timeline 
-            It will first unlike any posts that have been liked already
-
-            Exceptions:
-                TimeoutException - Will look for liked posts for 3 seconds 
-                upon timeout, it will continue running the script
+        """Likes the last 30 posts on the timeline.
+        It will first unlike any posts that have been liked already.
         """
 
         liked_xpath = '//a[@aria-pressed = "true"]'
