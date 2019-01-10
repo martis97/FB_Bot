@@ -5,10 +5,13 @@ from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException,\
     TimeoutException, WebDriverException
 
-# Explicit Wait (To be replaced with WaitFor module)
+# Selenium Explicit wait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+
+# ExplicitWait
+from FbBot.ExplicitWait import ExplicitWait
 
 # Misc.
 import getpass
@@ -24,11 +27,12 @@ class FBBot(object):
 
     def __init__(self, username, password):
         """Class initialisation."""
-        self.browser = None  
+        self.browser = self.create_browser()
         self.timeout = 60
         self.url = "https://www.facebook.com/"
         self.username = username
         self.password = password
+        self.Wait = ExplicitWait(self.browser, self.timeout)
 
     def create_browser(self, notifications_off=True):  
         """Creates a Webdriver instance of Chrome to drive the automation.
@@ -67,25 +71,19 @@ class FBBot(object):
         """Enters username and password to the respective fields and
         presses 'Log in'.
         """
-
-        email_entry = WebDriverWait(self.browser, self.timeout) \
-            .until(EC.presence_of_element_located((By.ID, "email")))   # This will
-
+        email_entry = self.Wait.id_visible("email")
         email_entry.send_keys(self.username)
 
-        password_entry = WebDriverWait(self.browser, self.timeout) \
-            .until(EC.presence_of_element_located((By.ID, "pass")))    # be replaced with
-
+        password_entry = self.Wait.id_visible("pass")
         password_entry.send_keys(self.password)
 
-        login_btn = WebDriverWait(self.browser, self.timeout) \
-            .until(EC.element_to_be_clickable((By.ID, "loginbutton"))) # WaitFor module
+        login_btn = self.Wait.id_visible("loginbutton")
+        login_btn.click()
 
-        login_btn.click()                                              
         try:
             WebDriverWait(self.browser, 4) \
                 .until(EC.visibility_of_element_located \
-                ((By.CLASS_NAME, "_4rbf")))                            # for cleaner code
+                ((By.CLASS_NAME, "_4rbf")))                            
 
             incorrectCredsElement = self.browser.find_element_by_class_name("_4rbf")
 
@@ -108,7 +106,7 @@ class FBBot(object):
 
             WebDriverWait(self.browser, 4) \
                 .until(EC.visibility_of_element_located \
-                ((By.XPATH, search_bar_element))) # Again needs WaitFor
+                ((By.XPATH, search_bar_element)))
         except TimeoutException:
             self.enter_to_search(search_value)
         
@@ -118,8 +116,7 @@ class FBBot(object):
     def press_search(self):
         """Initiating the search by pressing the 'Search' button."""
 
-        search_btn = WebDriverWait(self.browser, self.timeout) \
-            .until(EC.element_to_be_clickable((By.CLASS_NAME, "_585_"))) # And again
+        search_btn = self.Wait.class_name_clickable("_585_")
 
         search_btn.click()
 
@@ -130,20 +127,14 @@ class FBBot(object):
                 1 for the fist page, 2 for second etc.
         """
 
-        WebDriverWait(self.browser, self.timeout) \
-            .until(EC.element_to_be_clickable \
-            ((By.CLASS_NAME, "_52eh"))) # And again lol
-
+        self.Wait.class_name_clickable("_52eh")
         all_pages = self.browser.find_elements_by_class_name("_52eh")
         all_pages[number + 1].click()
 
     def select_page_name(self,name):
         """Selects the search result, given expected page name."""
 
-        WebDriverWait(self.browser, self.timeout) \
-            .until(EC.element_to_be_clickable \
-            ((By.CLASS_NAME, "_52eh"))) # And again 
-
+        self.Wait.class_name_clickable("_52eh") 
         all_pages = self.browser.find_elements_by_class_name("_52eh")
 
         for page in all_pages: 
@@ -177,8 +168,7 @@ class FBBot(object):
         except TimeoutException: 
             print("No liked posts found")
 
-        WebDriverWait(self.browser, self.timeout) \
-            .until(EC.element_to_be_clickable((By.XPATH, not_liked_xpath)))
+        self.Wait.xpath_clickable(not_liked_xpath)
 
         liked_posts = 0
         not_liked_btns = self.browser.find_elements_by_xpath(not_liked_xpath)
