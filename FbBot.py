@@ -198,7 +198,6 @@ def mr_robot():
     fb = FBBot(username, password)
 
     # Orchestra
-    fb.create_browser()
     fb.navigate_to_url()
     fb.login_process()
     fb.enter_to_search(search_value)
