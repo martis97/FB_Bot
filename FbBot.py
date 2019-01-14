@@ -84,9 +84,9 @@ class FBBot(object):
                 .until(EC.visibility_of_element_located \
                 ((By.CLASS_NAME, "_4rbf")))                            
 
-            incorrectCredsElement = self.browser.find_element_by_class_name("_4rbf")
+            incorrect_creds_element = self.browser.find_element_by_class_name("_4rbf")
 
-            if incorrectCredsElement.is_displayed():
+            if incorrect_creds_element.is_displayed():
                 print("Incorrect credentials have been entered!")
                 self.browser.quit()
 
@@ -198,7 +198,6 @@ def mr_robot():
     fb = FBBot(username, password)
 
     # Orchestra
-    fb.create_browser()
     fb.navigate_to_fb()
     fb.login_process()
     fb.enter_to_search(search_value)
