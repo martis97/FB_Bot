@@ -60,7 +60,7 @@ class FBBot(object):
             self.browser = webdriver.Chrome()
             return self.browser.fullscreen_window()
 
-    def navigate_to_url(self):
+    def navigate_to_fb(self):
         """ Makes the browser window fullscreen and navigates to the web page
         """
 
@@ -100,16 +100,15 @@ class FBBot(object):
             search_value = (str) Text to send to the search box.
         """
 
-        try:
-            search_bar_element = '//input[@placeholder = "Search"]'
+        search_bar_element = '//input[@placeholder = "Search"]'
 
-            WebDriverWait(self.browser, 4) \
-                .until(EC.visibility_of_element_located \
-                ((By.XPATH, search_bar_element)))
-        except TimeoutException:
-            self.enter_to_search(search_value)
+        WebDriverWait(self.browser, 4, poll_frequency=1, 
+                        ignored_exceptions=[TimeoutException]) \
+            .until(EC.visibility_of_element_located \
+                        ((By.XPATH, search_bar_element)))
         
-        search_bar = self.browser.find_element_by_xpath(search_bar_element)
+        search_bar = self.browser. \
+                        find_element_by_xpath(search_bar_element)
         search_bar.send_keys(search_value)
 
     def press_search(self):
@@ -184,6 +183,7 @@ class FBBot(object):
                 print("%d most recent posts have been liked" % num_posts)
                 break
 
+
 def mr_robot():
     """Function call and parameter definition"""
 
@@ -199,7 +199,7 @@ def mr_robot():
 
     # Orchestra
     fb.create_browser()
-    fb.navigate_to_url()
+    fb.navigate_to_fb()
     fb.login_process()
     fb.enter_to_search(search_value)
     fb.press_search()
