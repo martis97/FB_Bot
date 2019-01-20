@@ -194,7 +194,8 @@ def mr_robot(page_name="Crazy Programmer", posts_to_like=25):
     Args:
         page_name: Name of the page to search for. Set default to 
             "Crazy Programmer".
-        posts_to_like: The amount of posts to 
+        posts_to_like: The amount of posts to like, starting from the
+            beginning.
     """
 
     # Param definitions
