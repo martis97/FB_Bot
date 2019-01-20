@@ -148,7 +148,7 @@ class FBBot(object):
         liked_xpath = '//a[@aria-pressed = "true"]'
         not_liked_xpath = '//a[@aria-pressed = "false"]'
         post_like = 'fb-ufi-likelink'
-        random_wait = random.uniform(1, 1.99)
+        random_wait = int("%.2d") % random.uniform(1, 1.99)
 
         try:
             WebDriverWait(self.browser, 5) \
