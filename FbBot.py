@@ -102,8 +102,7 @@ class FBBot(object):
 
         search_bar_element = '//input[@placeholder = "Search"]'
 
-        WebDriverWait(self.browser, 4, poll_frequency=1, 
-                        ignored_exceptions=[TimeoutException]) \
+        WebDriverWait(self.browser, 4) \
             .until(EC.visibility_of_element_located \
                         ((By.XPATH, search_bar_element)))
         
