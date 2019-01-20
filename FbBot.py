@@ -147,7 +147,6 @@ class FBBot(object):
 
         liked_xpath = '//a[@aria-pressed = "true"]'
         not_liked_xpath = '//a[@aria-pressed = "false"]'
-        post_like = 'fb-ufi-likelink'
         random_wait = int("%.2d") % random.uniform(1, 1.99)
 
         try:
@@ -157,7 +156,7 @@ class FBBot(object):
 
             print("Unliking pages that have been already liked..")
             for like_button in liked_btns:
-                if like_button.get_attribute("data-testid") == post_like:
+                if like_button.get_attribute("data-testid") == 'fb-ufi-likelink':
                     like_button.click()
                     time.sleep(random_wait)
                 else:
@@ -171,7 +170,7 @@ class FBBot(object):
         not_liked_btns = self.browser.find_elements_by_xpath(not_liked_xpath)
         print("Liking the latest %d posts on the timeline.." % num_posts)
         for like_button in not_liked_btns:
-            if like_button.get_attribute("data-testid") == post_like:
+            if like_button.get_attribute("data-testid") == 'fb-ufi-likelink':
                 like_button.click()
                 time.sleep(random_wait)
                 liked_posts += 1
