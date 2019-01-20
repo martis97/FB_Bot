@@ -26,6 +26,7 @@ class FBBot(object):
 
     def __init__(self, username, password):
         """Class initialisation."""
+        
         self.browser = self.create_browser()
         self.timeout = 60
         self.url = "https://www.facebook.com/"
@@ -94,7 +95,7 @@ class FBBot(object):
         except TimeoutException:
             pass
 
-    def enter_to_search(self,page_name):
+    def enter_to_search(self, page_name):
         """Looks for a Facebook using a search bar.
         
         Args:
@@ -119,18 +120,22 @@ class FBBot(object):
         search_btn.click()
 
     def select_page_index(self,number):
-        """Selects the search result by its position, starting from 1.
+        """Selects the search result by its position, starting from 0.
         Args:
             number: (int) Order number of available pages. 
-                1 for the fist page, 2 for second etc.
+                0 for the fist page, 1 for second etc.
         """
 
         self.Wait.class_name_clickable("_52eh")
         all_pages = self.browser.find_elements_by_class_name("_52eh")
-        all_pages[number-1].click()
+        all_pages[number].click()
 
-    def select_page_name(self,name):
-        """Selects the search result, given expected page name."""
+    def select_page_name(self, page_name):
+        """Selects the search result, given expected page name.
+
+        Args:
+            page_name: Name of the page to search for.
+        """
 
         self.Wait.class_name_clickable("_52eh") 
         all_pages = self.browser.find_elements_by_class_name("_52eh")
@@ -163,9 +168,13 @@ class FBBot(object):
         except TimeoutException: 
             print("No liked posts found")
             
-    def like_posts(self, num_posts): 
+    def like_posts(self, posts_to_like): 
         """Likes the last 30 posts on the timeline.
         It will first unlike any posts that have been liked already.
+
+        Args:
+            posts_to_like: The amount of posts to like, starting from the
+            beginning.
         """
 
         not_liked_btns_xpath = '//a[@aria-pressed = "false"]'
@@ -173,7 +182,7 @@ class FBBot(object):
 
         like_count = 0
         not_liked_btns = self.browser.find_elements_by_xpath(not_liked_btns_xpath)
-        print("Liking the latest %d posts on the timeline.." % num_posts)
+        print("Liking the latest %d posts on the timeline.." % posts_to_like)
         for like_button in not_liked_btns:
             if like_button.get_attribute("data-testid") == 'fb-ufi-likelink':
                 like_button.click()
@@ -182,9 +191,9 @@ class FBBot(object):
             else:
                 continue
 
-            if like_count == num_posts:
+            if like_count == posts_to_like:
 
-                print("%d most recent posts have been liked" % num_posts)
+                print("%d most recent posts have been liked" % posts_to_like)
                 break
 
 
@@ -212,6 +221,7 @@ def mr_robot(page_name="Crazy Programmer", posts_to_like=25):
     fb.enter_to_search(page_name)
     fb.press_search()
     fb.select_page_name(page_name)
+    fb.unlike_all_posts()
     fb.like_posts(number_likes)
 
 mr_robot()
