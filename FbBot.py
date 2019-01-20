@@ -32,6 +32,7 @@ class FBBot(object):
         self.username = username
         self.password = password
         self.Wait = ExplicitWait(self.browser, self.timeout)
+        self.random_wait = int("%.2d") % random.uniform(1, 1.99)
 
     def create_browser(self, notifications_off=True):  
         """Creates a Webdriver instance of Chrome to drive the automation.
@@ -93,11 +94,11 @@ class FBBot(object):
         except TimeoutException:
             pass
 
-    def enter_to_search(self,search_value):
+    def enter_to_search(self,page_name):
         """Looks for a Facebook using a search bar.
         
         Args:
-            search_value = (str) Text to send to the search box.
+            page_name = (str) Text to send to the search box.
         """
 
         search_bar_element = '//input[@placeholder = "Search"]'
@@ -108,7 +109,7 @@ class FBBot(object):
         
         search_bar = self.browser. \
                         find_element_by_xpath(search_bar_element)
-        search_bar.send_keys(search_value)
+        search_bar.send_keys(page_name)
 
     def press_search(self):
         """Initiating the search by pressing the 'Search' button."""
@@ -140,14 +141,12 @@ class FBBot(object):
             else:
                 continue
 
-    def press_like(self, num_posts): 
+    def unlike_all_posts(self): 
         """Likes the last 30 posts on the timeline.
         It will first unlike any posts that have been liked already.
         """
 
         liked_xpath = '//a[@aria-pressed = "true"]'
-        not_liked_xpath = '//a[@aria-pressed = "false"]'
-        random_wait = int("%.2d") % random.uniform(1, 1.99)
 
         try:
             WebDriverWait(self.browser, 5) \
@@ -158,38 +157,49 @@ class FBBot(object):
             for like_button in liked_btns:
                 if like_button.get_attribute("data-testid") == 'fb-ufi-likelink':
                     like_button.click()
-                    time.sleep(random_wait)
+                    time.sleep(self.random_wait)
                 else:
                     continue
         except TimeoutException: 
             print("No liked posts found")
+            
+    def like_posts(self, num_posts): 
+        """Likes the last 30 posts on the timeline.
+        It will first unlike any posts that have been liked already.
+        """
 
-        self.Wait.xpath_clickable(not_liked_xpath)
+        not_liked_btns_xpath = '//a[@aria-pressed = "false"]'
+        self.Wait.xpath_clickable(not_liked_btns_xpath)
 
-        liked_posts = 0
-        not_liked_btns = self.browser.find_elements_by_xpath(not_liked_xpath)
+        like_count = 0
+        not_liked_btns = self.browser.find_elements_by_xpath(not_liked_btns_xpath)
         print("Liking the latest %d posts on the timeline.." % num_posts)
         for like_button in not_liked_btns:
             if like_button.get_attribute("data-testid") == 'fb-ufi-likelink':
                 like_button.click()
-                time.sleep(random_wait)
-                liked_posts += 1
+                time.sleep(self.random_wait)
+                like_count += 1
             else:
                 continue
 
-            if liked_posts == num_posts:
+            if like_count == num_posts:
+
                 print("%d most recent posts have been liked" % num_posts)
                 break
 
 
-def mr_robot():
-    """Function call and parameter definition"""
+def mr_robot(page_name="Crazy Programmer", posts_to_like=25):
+    """Function call and parameter definition.
+    
+    Args:
+        page_name: Name of the page to search for. Set default to 
+            "Crazy Programmer".
+        posts_to_like: The amount of posts to 
+    """
 
     # Param definitions
     username = input("Enter username: ")
     password = getpass.getpass("Enter password for %s : " % username)
-    search_value = "Crazy Programmer"
-    page_number = 1
     number_likes = 25
 
     # Class instance
@@ -198,9 +208,9 @@ def mr_robot():
     # Orchestra
     fb.navigate_to_fb()
     fb.login_process()
-    fb.enter_to_search(search_value)
+    fb.enter_to_search(page_name)
     fb.press_search()
-    fb.select_page_index(page_number)
-    fb.press_like(number_likes)
+    fb.select_page_name(page_name)
+    fb.like_posts(number_likes)
 
 mr_robot()
