@@ -26,7 +26,7 @@ class FBBot(object):
 
     def __init__(self, username, password):
         """Class initialisation."""
-        
+
         self.browser = self.create_browser()
         self.timeout = 60
         self.url = "https://www.facebook.com/"
@@ -210,7 +210,6 @@ def mr_robot(page_name="Crazy Programmer", posts_to_like=25):
     # Param definitions
     username = input("Enter username: ")
     password = getpass.getpass("Enter password for %s : " % username)
-    number_likes = 25
 
     # Class instance
     fb = FBBot(username, password)
@@ -222,6 +221,6 @@ def mr_robot(page_name="Crazy Programmer", posts_to_like=25):
     fb.press_search()
     fb.select_page_name(page_name)
     fb.unlike_all_posts()
-    fb.like_posts(number_likes)
+    fb.like_posts(posts_to_like)
 
 mr_robot()
