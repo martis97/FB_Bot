@@ -22,15 +22,24 @@ import random
 class FBBot(object):
     """Facebook bot class defining actions required to log in to Facebook,
     find a page and like the first 30 (default amount) posts on the timeline.
+
+    Attributes:
+        browser: Webdriver instance of Chrome used to drive automation.
+        timeout: Amount of seconds the WebDriver will wait for a 
+            specified condition.
+        url: Facebook URL 
+        email: Email used to log in to Facebook
+        password: Password used to authenticate the user
+        Wait: Instance of ExcplicitWait class
     """
 
-    def __init__(self, username, password):
+    def __init__(self, email, password):
         """Class initialisation."""
 
         self.browser = self.create_browser()
         self.timeout = 60
         self.url = "https://www.facebook.com/"
-        self.username = username
+        self.email = email
         self.password = password
         self.Wait = ExplicitWait(self.browser, self.timeout)
 
@@ -68,12 +77,12 @@ class FBBot(object):
         self.browser.get(self.url)
 
     def login_process(self):
-        """Enters username and password to the respective fields and
+        """Enters email and password to the respective fields and
         presses 'Log in'.
         """
 
         email_entry = self.Wait.id_visible("email")
-        email_entry.send_keys(self.username)
+        email_entry.send_keys(self.email)
 
         password_entry = self.Wait.id_visible("pass")
         password_entry.send_keys(self.password)
@@ -208,11 +217,11 @@ def mr_robot(page_name="Crazy Programmer", posts_to_like=25):
     """
 
     # Param definitions
-    username = input("Enter username: ")
-    password = getpass.getpass("Enter password for %s : " % username)
+    email = input("Enter email: ")
+    password = getpass.getpass("Enter password for %s : " % email)
 
     # Class instance
-    fb = FBBot(username, password)
+    fb = FBBot(email, password)
 
     # Orchestra
     fb.navigate_to_fb()
