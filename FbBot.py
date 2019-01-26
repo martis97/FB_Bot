@@ -33,7 +33,6 @@ class FBBot(object):
         self.username = username
         self.password = password
         self.Wait = ExplicitWait(self.browser, self.timeout)
-        self.random_wait = int("%.2d") % random.uniform(1, 1.99)
 
     def create_browser(self, notifications_off=True):  
         """Creates a Webdriver instance of Chrome to drive the automation.
@@ -72,6 +71,7 @@ class FBBot(object):
         """Enters username and password to the respective fields and
         presses 'Log in'.
         """
+
         email_entry = self.Wait.id_visible("email")
         email_entry.send_keys(self.username)
 
@@ -116,11 +116,11 @@ class FBBot(object):
         """Initiating the search by pressing the 'Search' button."""
 
         search_btn = self.Wait.class_name_clickable("_585_")
-
         search_btn.click()
 
     def select_page_index(self,number):
         """Selects the search result by its position, starting from 0.
+
         Args:
             number: (int) Order number of available pages. 
                 0 for the fist page, 1 for second etc.
@@ -141,7 +141,7 @@ class FBBot(object):
         all_pages = self.browser.find_elements_by_class_name("_52eh")
 
         for page in all_pages: 
-            if page.text == name:
+            if page.text == page_name:
                 page.click()
             else:
                 continue
@@ -162,7 +162,7 @@ class FBBot(object):
             for like_button in liked_btns:
                 if like_button.get_attribute("data-testid") == 'fb-ufi-likelink':
                     like_button.click()
-                    time.sleep(self.random_wait)
+                    time.sleep(float("%.2f" % random.uniform(1, 1.99)))
                 else:
                     continue
         except TimeoutException: 
@@ -186,7 +186,7 @@ class FBBot(object):
         for like_button in not_liked_btns:
             if like_button.get_attribute("data-testid") == 'fb-ufi-likelink':
                 like_button.click()
-                time.sleep(self.random_wait)
+                time.sleep(float("%.2f" % random.uniform(1, 1.99)))
                 like_count += 1
             else:
                 continue
