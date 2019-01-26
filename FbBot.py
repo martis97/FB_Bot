@@ -186,7 +186,7 @@ class FBBot(object):
         for like_button in not_liked_btns:
             if like_button.get_attribute("data-testid") == 'fb-ufi-likelink':
                 like_button.click()
-                time.sleep(float("%.2f" % random.uniform(1, 1.99)))
+                time.sleep(float("%.2f" % random.uniform(1, 3)))
                 like_count += 1
             else:
                 continue
