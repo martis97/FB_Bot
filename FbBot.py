@@ -48,8 +48,9 @@ class FBBot(object):
         
         Args:
             notifications_off: (Default: True) Boolean value if browser 
-                required with notifications off. FB requires access to 
-                notifications when first time accessed.
+                required with notifications off. FB requests access to 
+                notifications when accessed for the first time.
+
         Returns:
             browser: Webdriver instance of Chrome used to drive automation.
                 Set to be fullscreen.
@@ -93,7 +94,7 @@ class FBBot(object):
         try:
             WebDriverWait(self.browser, 4) \
                 .until(EC.visibility_of_element_located \
-                ((By.CLASS_NAME, "_4rbf")))                            
+                ((By.CLASS_NAME, "_4rbf")))
 
             incorrect_creds_element = self.browser.find_element_by_class_name("_4rbf")
 
@@ -108,7 +109,7 @@ class FBBot(object):
         """Looks for a Facebook using a search bar.
         
         Args:
-            page_name = (str) Text to send to the search box.
+            page_name: (str) Text to send to the search box.
         """
 
         search_bar_element = '//input[@placeholder = "Search"]'
