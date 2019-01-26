@@ -15,7 +15,7 @@ class ExplicitWait(object):
     """
 
     def __init__(self, browser, timeout):
-        """Module Initialisation"""
+        """Class Initialisation"""
         self.browser = browser
         self.timeout = timeout
 
