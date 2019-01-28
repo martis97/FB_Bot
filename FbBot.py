@@ -229,5 +229,6 @@ def mr_robot(page_name="Crazy Programmer", posts_to_like=25):
     fb.select_page_name(page_name)
     fb.unlike_all_posts()
     fb.like_posts(posts_to_like)
+    fb.browser.quit()
 
 mr_robot()
