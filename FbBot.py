@@ -213,13 +213,16 @@ def mr_robot(page_name="Crazy Programmer", posts_to_like=25):
         posts_to_like: The amount of posts to like, starting from the
             beginning.
     """
-
-    # Param definitions
-    email = input("Enter email: ")
-    password = getpass.getpass(f"Enter password for {email} : ")
+    
+    # Get Credentials
+    creds = \
+    {
+        "email" : input("Enter email: "),
+        "password" : getpass.getpass("Enter password : ")
+    }
 
     # Class instance
-    fb = FBBot(email, password)
+    fb = FBBot(**creds)
 
     # Orchestra
     fb.navigate_to_fb()
