@@ -180,7 +180,6 @@ class FBBot(object):
             
     def like_posts(self, posts_to_like): 
         """Likes the last 30 posts on the timeline.
-        It will first unlike any posts that have been liked already.
 
         Args:
             posts_to_like: The amount of posts to like, starting from the
@@ -192,7 +191,7 @@ class FBBot(object):
 
         like_count = 0
         not_liked_btns = self.browser.find_elements_by_xpath(not_liked_btns_xpath)
-        print("Liking the latest %d posts on the timeline.." % posts_to_like)
+        print(f"Liking the latest {posts_to_like} posts on the timeline")
         for like_button in not_liked_btns:
             if like_button.get_attribute("data-testid") == 'fb-ufi-likelink':
                 like_button.click()
@@ -200,10 +199,8 @@ class FBBot(object):
                 like_count += 1
             else:
                 continue
-
             if like_count == posts_to_like:
-
-                print("%d most recent posts have been liked" % posts_to_like)
+                print(f"{like_count} most recent posts have been liked")
                 break
 
 
@@ -219,7 +216,7 @@ def mr_robot(page_name="Crazy Programmer", posts_to_like=25):
 
     # Param definitions
     email = input("Enter email: ")
-    password = getpass.getpass("Enter password for %s : " % email)
+    password = getpass.getpass(f"Enter password for {email} : ")
 
     # Class instance
     fb = FBBot(email, password)
