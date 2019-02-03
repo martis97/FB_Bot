@@ -96,11 +96,8 @@ class FBBot(object):
                 .until(EC.visibility_of_element_located \
                 ((By.CLASS_NAME, "_4rbf")))
 
-            incorrect_creds_element = self.browser.find_element_by_class_name("_4rbf")
-
-            if incorrect_creds_element.is_displayed():
-                print("Incorrect credentials have been entered!")
-                self.browser.quit()
+            print("Incorrect credentials have been entered!")
+            self.browser.quit()
 
         except TimeoutException:
             pass
