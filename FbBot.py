@@ -77,7 +77,7 @@ class FBBot(object):
 
         self.browser.get(self.url)
 
-    def login_process(self):
+    def login(self):
         """Enters email and password to the respective fields and
         presses 'Log in'.
         """
@@ -226,7 +226,7 @@ def mr_robot(page_name="Crazy Programmer", posts_to_like=25):
 
     # Orchestra
     fb.navigate_to_fb()
-    fb.login_process()
+    fb.login()
     fb.enter_to_search(page_name)
     fb.press_search()
     fb.select_page_name(page_name)
