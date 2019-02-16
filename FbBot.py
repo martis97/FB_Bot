@@ -76,7 +76,7 @@ class FBBot(object):
 
         self.browser.get(self.url)
 
-    def login_process(self):
+    def login(self):
         """Enters email and password to the respective fields and
         presses 'Log in'.
         """
@@ -91,13 +91,12 @@ class FBBot(object):
         login_btn.click()
 
         try:
-            incorrect_creds_element = WebDriverWait(self.browser, 4) \
-                .until(EC.visibility_of_element_located 
-                    ((By.CLASS_NAME, "_4rbf")))
+            WebDriverWait(self.browser, 4) \
+                .until(EC.visibility_of_element_located \
+                ((By.CLASS_NAME, "_4rbf")))
 
-            if incorrect_creds_element.is_displayed():
-                print("Incorrect credentials have been entered!")
-                self.browser.quit()
+            print("Incorrect credentials have been entered!")
+            self.browser.quit()
 
         except TimeoutException:
             pass
@@ -223,7 +222,7 @@ def mr_robot(page_name="Crazy Programmer", posts_to_like=25):
 
     # Orchestra
     fb.navigate_to_fb()
-    fb.login_process()
+    fb.login()
     fb.enter_to_search(page_name)
     fb.press_search()
     fb.select_page_name(page_name)
