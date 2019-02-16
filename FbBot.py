@@ -49,7 +49,7 @@ class FBBot(object):
         Args:
             notifications_off: (Default: True) Boolean value if browser 
                 required with notifications off. FB requests access to 
-                notifications when accessed for the first time.
+                notifications upon a first user's visit to the website.
 
         Returns:
             browser: Webdriver instance of Chrome used to drive automation.
@@ -72,8 +72,7 @@ class FBBot(object):
             return self.browser.fullscreen_window()
 
     def navigate_to_fb(self):
-        """ Makes the browser window fullscreen and navigates to the web page
-        """
+        """Navigates to the web page. """
 
         self.browser.get(self.url)
 
@@ -92,11 +91,9 @@ class FBBot(object):
         login_btn.click()
 
         try:
-            WebDriverWait(self.browser, 4) \
-                .until(EC.visibility_of_element_located \
-                ((By.CLASS_NAME, "_4rbf")))
-
-            incorrect_creds_element = self.browser.find_element_by_class_name("_4rbf")
+            incorrect_creds_element = WebDriverWait(self.browser, 4) \
+                .until(EC.visibility_of_element_located 
+                    ((By.CLASS_NAME, "_4rbf")))
 
             if incorrect_creds_element.is_displayed():
                 print("Incorrect credentials have been entered!")
@@ -157,7 +154,7 @@ class FBBot(object):
                 continue
 
     def unlike_all_posts(self): 
-        """Likes the last 30 posts on the timeline.
+        """Likes the last 30 posts on the timeline.rdp
         It will first unlike any posts that have been liked already.
         """
 
