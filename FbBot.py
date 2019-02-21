@@ -108,7 +108,7 @@ class FBBot(object):
             page_name: (str) Text to send to the search box.
         """
 
-        search_bar_element = '//input[@placeholder = "Search"]'
+        search_bar_element = '//input[@placeholder="Search"]'
 
         WebDriverWait(self.browser, 4) \
             .until(EC.visibility_of_element_located \
@@ -153,9 +153,7 @@ class FBBot(object):
                 continue
 
     def unlike_all_posts(self): 
-        """Likes the last 30 posts on the timeline.rdp
-        It will first unlike any posts that have been liked already.
-        """
+        """Unlike any posts that have been liked already"""
 
         liked_xpath = '//a[@aria-pressed = "true"]'
 
@@ -189,15 +187,16 @@ class FBBot(object):
         not_liked_btns = self.browser.find_elements_by_xpath(not_liked_btns_xpath)
         print(f"Liking the latest {posts_to_like} posts on the timeline")
         for like_button in not_liked_btns:
+            if like_count == posts_to_like:
+                print(f"{like_count} most recent posts have been liked")
+                break
             if like_button.get_attribute("data-testid") == 'fb-ufi-likelink':
                 like_button.click()
                 time.sleep(float("%.2f" % random.uniform(1, 3)))
                 like_count += 1
             else:
                 continue
-            if like_count == posts_to_like:
-                print(f"{like_count} most recent posts have been liked")
-                break
+            
 
 
 def mr_robot(page_name="Crazy Programmer", posts_to_like=25):
